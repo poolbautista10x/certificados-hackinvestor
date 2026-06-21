@@ -8,25 +8,35 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
+
 body{
     font-family: Arial, sans-serif;
-    text-align:center;
     background:#f4f6f9;
+    text-align:center;
     padding:20px;
 }
 
+.contenedor{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
 input{
-    width:300px;
+    width:90%;
     padding:12px;
     font-size:18px;
-    margin:10px;
+    margin:10px 0;
 }
 
 button{
     padding:12px 20px;
-    font-size:16px;
     border:none;
     border-radius:8px;
+    font-size:16px;
     cursor:pointer;
     margin:5px;
 }
@@ -37,14 +47,14 @@ button{
 }
 
 .descargar{
-    background:#0a7c2f;
+    background:#0b8f3c;
     color:white;
 }
 
 #certificado{
     position:relative;
     width:1200px;
-    margin:20px auto;
+    margin:30px auto;
 }
 
 #certificado img{
@@ -52,55 +62,103 @@ button{
     display:block;
 }
 
-#nombre{
+#nombreCertificado{
     position:absolute;
-    top:49%;
+    top:53%;
     left:50%;
     transform:translate(-50%,-50%);
-    font-size:58px;
-    font-family:cursive;
-    color:#1a1a1a;
+    width:90%;
+    text-align:center;
+    font-size:60px;
+    color:#0b1f4d;
+    font-family:Georgia, serif;
+    font-weight:bold;
 }
+
 </style>
 </head>
+
 <body>
+
+<div class="contenedor">
 
 <h2>HackInvestor Academy</h2>
 
-<input type="text" id="nombreInput" placeholder="Escribe tu nombre">
+<p>Ingresa tu nombre completo</p>
+
+<input
+type="text"
+id="nombre"
+placeholder="Nombre completo">
 
 <br>
 
-<button class="generar" onclick="generarCertificado()">
+<button
+class="generar"
+onclick="generarCertificado()">
 Generar Certificado
 </button>
 
-<button class="descargar" onclick="descargarCertificado()">
+<button
+class="descargar"
+onclick="descargarCertificado()">
 Descargar Certificado
 </button>
 
+</div>
+
 <div id="certificado">
-    <img src="certificado.png" alt="Certificado">
-    <div id="nombre"></div>
+
+<img src="certificado.jpg">
+
+<div id="nombreCertificado"></div>
+
 </div>
 
 <script>
 
 function generarCertificado(){
-    let nombre = document.getElementById("nombreInput").value;
-    document.getElementById("nombre").innerText = nombre;
+
+let nombre =
+document.getElementById("nombre").value;
+
+if(nombre==""){
+alert("Ingresa tu nombre");
+return;
+}
+
+document.getElementById("nombreCertificado").innerText = nombre;
+
 }
 
 function descargarCertificado(){
 
-html2canvas(document.querySelector("#certificado"),{
-scale:2
-}).then(canvas => {
+let nombre =
+document.getElementById("nombre").value;
 
-let link = document.createElement("a");
-link.download = "certificado.png";
-link.href = canvas.toDataURL("image/png");
-link.click();
+if(nombre==""){
+alert("Primero genera el certificado");
+return;
+}
+
+html2canvas(
+document.getElementById("certificado"),
+{
+scale:2,
+useCORS:true
+}
+).then(function(canvas){
+
+let enlace =
+document.createElement("a");
+
+enlace.download =
+"Certificado-HackInvestor.png";
+
+enlace.href =
+canvas.toDataURL("image/png");
+
+enlace.click();
 
 });
 
